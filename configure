@@ -1,0 +1,1 @@
+--with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc
