@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 8.0
-Release  : 1
+Release  : 2
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-8.0.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-8.0.tar.xz
 Summary  : PulseAudio Simplified Synchronous Client Interface
@@ -31,6 +31,7 @@ BuildRequires : pkgconfig(json-c)
 BuildRequires : pkgconfig(libsystemd)
 BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(openssl)
+BuildRequires : pkgconfig(orc-0.4)
 BuildRequires : pkgconfig(sndfile)
 BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(x11-xcb)
@@ -111,7 +112,7 @@ locales components for the pulseaudio package.
 %setup -q -n pulseaudio-8.0
 
 %build
-%configure --disable-static
+%configure --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc
 make V=1  %{?_smp_mflags}
 
 %check
@@ -124,10 +125,12 @@ make VERBOSE=1 V=1 %{?_smp_mflags} check
 rm -rf %{buildroot}
 %make_install
 %find_lang pulseaudio
+## make_install_append content
+rm -rf %{buildroot}%{_datadir}/vala
+## make_install_append end
 
 %files
 %defattr(-,root,root,-)
-/lib/udev/rules.d/90-pulseaudio.rules
 /usr/lib64/cmake/PulseAudio/PulseAudioConfig.cmake
 /usr/lib64/cmake/PulseAudio/PulseAudioConfigVersion.cmake
 
@@ -150,6 +153,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/lib/systemd/user/pulseaudio.service
 /usr/lib/systemd/user/pulseaudio.socket
+/usr/lib/udev/rules.d/90-pulseaudio.rules
 
 %files data
 %defattr(-,root,root,-)
@@ -209,12 +213,6 @@ rm -rf %{buildroot}
 /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktor-audio6.conf
 /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktorkontrol-s4.conf
 /usr/share/pulseaudio/alsa-mixer/profile-sets/sb-omni-surround-5.1.conf
-/usr/share/vala/vapi/libpulse-mainloop-glib.deps
-/usr/share/vala/vapi/libpulse-mainloop-glib.vapi
-/usr/share/vala/vapi/libpulse-simple.deps
-/usr/share/vala/vapi/libpulse-simple.vapi
-/usr/share/vala/vapi/libpulse.deps
-/usr/share/vala/vapi/libpulse.vapi
 /usr/share/zsh/site-functions/_pulseaudio
 
 %files dev
