@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 8.0
-Release  : 2
+Release  : 3
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-8.0.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-8.0.tar.xz
 Summary  : PulseAudio Simplified Synchronous Client Interface
@@ -19,6 +19,7 @@ Requires: pulseaudio-doc
 BuildRequires : gdbm-dev
 BuildRequires : gettext
 BuildRequires : intltool
+BuildRequires : intltool-dev
 BuildRequires : libcap-dev
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkgconfig(alsa)
@@ -36,6 +37,7 @@ BuildRequires : pkgconfig(sndfile)
 BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(x11-xcb)
 BuildRequires : pkgconfig(xcb)
+Patch1: 0001-Support-a-stateless-configuration.patch
 
 %description
 PULSEAUDIO SOUND SERVER
@@ -110,9 +112,10 @@ locales components for the pulseaudio package.
 
 %prep
 %setup -q -n pulseaudio-8.0
+%patch1 -p1
 
 %build
-%configure --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc
+%autogen --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc
 make V=1  %{?_smp_mflags}
 
 %check
@@ -166,6 +169,7 @@ rm -rf %{buildroot}%{_datadir}/vala
 /usr/share/bash-completion/completions/parecord
 /usr/share/bash-completion/completions/pasuspender
 /usr/share/bash-completion/completions/pulseaudio
+/usr/share/dbus-1/system.d/pulseaudio-system.conf
 /usr/share/pulseaudio/alsa-mixer/paths/analog-input-aux.conf
 /usr/share/pulseaudio/alsa-mixer/paths/analog-input-dock-mic.conf
 /usr/share/pulseaudio/alsa-mixer/paths/analog-input-fm.conf
@@ -213,6 +217,10 @@ rm -rf %{buildroot}%{_datadir}/vala
 /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktor-audio6.conf
 /usr/share/pulseaudio/alsa-mixer/profile-sets/native-instruments-traktorkontrol-s4.conf
 /usr/share/pulseaudio/alsa-mixer/profile-sets/sb-omni-surround-5.1.conf
+/usr/share/pulseaudio/client.conf
+/usr/share/pulseaudio/daemon.conf
+/usr/share/pulseaudio/default.pa
+/usr/share/pulseaudio/system.pa
 /usr/share/zsh/site-functions/_pulseaudio
 
 %files dev
