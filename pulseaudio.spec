@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 8.0
-Release  : 3
+Release  : 4
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-8.0.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-8.0.tar.xz
 Summary  : PulseAudio Simplified Synchronous Client Interface
