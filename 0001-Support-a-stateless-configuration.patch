@@ -1,4 +1,4 @@
-From 7d0268c9940f269b852437f72ea7a58a8dd2d2f1 Mon Sep 17 00:00:00 2001
+From f79cde22fb94a679958c6dec4828042ca3276948 Mon Sep 17 00:00:00 2001
 From: Ikey Doherty <michael.i.doherty@intel.com>
 Date: Thu, 10 Mar 2016 16:11:56 +0000
 Subject: [PATCH] Support a stateless configuration
@@ -66,7 +66,7 @@ index b0ca2bc..c8c012c 100644
  		system.pa \
  		daemon.conf \
 diff --git a/src/daemon/daemon-conf.c b/src/daemon/daemon-conf.c
-index 288aed2..11bea8c 100644
+index 288aed2..fad0b3a 100644
 --- a/src/daemon/daemon-conf.c
 +++ b/src/daemon/daemon-conf.c
 @@ -51,9 +51,17 @@
@@ -93,7 +93,7 @@ index 288aed2..11bea8c 100644
  
 +    const char *conf_path = NULL;
 +
-+    if (access(DEFAULT_CONFIG_FILE, F_OK))
++    if (access(DEFAULT_CONFIG_FILE, F_OK) == 0)
 +        conf_path = DEFAULT_CONFIG_FILE;
 +    else
 +        conf_path = DEFAULT_STATELESS_CONFIG_FILE;
@@ -111,14 +111,14 @@ index 288aed2..11bea8c 100644
      if (!c->default_script_file) {
          if (c->system_instance)
 -            c->default_script_file = pa_find_config_file(DEFAULT_SYSTEM_SCRIPT_FILE, NULL, ENV_SCRIPT_FILE);
-+            if (access(DEFAULT_SYSTEM_SCRIPT_FILE, F_OK))
++            if (access(DEFAULT_SYSTEM_SCRIPT_FILE, F_OK) == 0)
 +                c->default_script_file = pa_find_config_file(DEFAULT_SYSTEM_SCRIPT_FILE, NULL, ENV_SCRIPT_FILE);
 +            else
 +                c->default_script_file = pa_find_config_file(DEFAULT_STATELESS_SYSTEM_SCRIPT_FILE, NULL, ENV_SCRIPT_FILE);
 +
          else
 -            c->default_script_file = pa_find_config_file(DEFAULT_SCRIPT_FILE, DEFAULT_SCRIPT_FILE_USER, ENV_SCRIPT_FILE);
-+            if (access(DEFAULT_SCRIPT_FILE, F_OK))
++            if (access(DEFAULT_SCRIPT_FILE, F_OK) == 0)
 +                c->default_script_file = pa_find_config_file(DEFAULT_SCRIPT_FILE, DEFAULT_SCRIPT_FILE_USER, ENV_SCRIPT_FILE);
 +            else
 +                c->default_script_file = pa_find_config_file(DEFAULT_STATELESS_SCRIPT_FILE, DEFAULT_SCRIPT_FILE_USER, ENV_SCRIPT_FILE);
@@ -131,13 +131,13 @@ index 288aed2..11bea8c 100644
      if (!c->default_script_file) {
          if (c->system_instance)
 -            f = pa_open_config_file(DEFAULT_SYSTEM_SCRIPT_FILE, NULL, ENV_SCRIPT_FILE, &c->default_script_file);
-+            if (access(DEFAULT_SYSTEM_SCRIPT_FILE, F_OK))
++            if (access(DEFAULT_SYSTEM_SCRIPT_FILE, F_OK) == 0)
 +                f = pa_open_config_file(DEFAULT_SYSTEM_SCRIPT_FILE, NULL, ENV_SCRIPT_FILE, &c->default_script_file);
 +            else
 +                f = pa_open_config_file(DEFAULT_STATELESS_SYSTEM_SCRIPT_FILE, NULL, ENV_SCRIPT_FILE, &c->default_script_file);
          else
 -            f = pa_open_config_file(DEFAULT_SCRIPT_FILE, DEFAULT_SCRIPT_FILE_USER, ENV_SCRIPT_FILE, &c->default_script_file);
-+            if (access(DEFAULT_SCRIPT_FILE, F_OK))
++            if (access(DEFAULT_SCRIPT_FILE, F_OK) == 0)
 +                f = pa_open_config_file(DEFAULT_SCRIPT_FILE, DEFAULT_SCRIPT_FILE_USER, ENV_SCRIPT_FILE, &c->default_script_file);
 +            else
 +                f = pa_open_config_file(DEFAULT_STATELESS_SCRIPT_FILE, DEFAULT_SCRIPT_FILE_USER, ENV_SCRIPT_FILE, &c->default_script_file);
