@@ -2,7 +2,6 @@
 # but are undesirable. One entry per line, no whitespace.
 bluez
 gconf-2.0
-gtk+-3.0
 jack
 libasyncns
 libsystemd-daemon

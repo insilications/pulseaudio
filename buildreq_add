@@ -1,3 +1,7 @@
 # This file contains additional build requirements that did not get
 # picked up automatically. One name per line, no whitespace.
 intltool-dev
+libsamplerate-dev
+#tdb-dev
+libX11-dev
+libcap-ng-dev
