@@ -5,3 +5,5 @@ libsamplerate-dev
 #tdb-dev
 libX11-dev
 libcap-ng-dev
+speex-dev
+libcap-dev

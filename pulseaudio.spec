@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 9.0
-Release  : 7
+Release  : 8
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-9.0.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-9.0.tar.xz
 Summary  : PulseAudio Simplified Synchronous Client Interface
@@ -43,6 +43,7 @@ BuildRequires : pkgconfig(sndfile)
 BuildRequires : pkgconfig(x11-xcb)
 BuildRequires : pkgconfig(xcb)
 BuildRequires : pkgconfig(xtst)
+BuildRequires : speex-dev
 Patch1: 0001-Support-a-stateless-configuration.patch
 
 %description
@@ -122,7 +123,7 @@ locales components for the pulseaudio package.
 
 %build
 export LANG=C
-%autogen --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc
+%autogen --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc --with-speex
 make V=1  %{?_smp_mflags}
 
 %check
