@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 9.0
-Release  : 9
+Release  : 10
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-9.0.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-9.0.tar.xz
 Summary  : PulseAudio Simplified Synchronous Client Interface
@@ -269,8 +269,12 @@ rm -rf %{buildroot}%{_datadir}/vala
 /usr/include/pulse/version.h
 /usr/include/pulse/volume.h
 /usr/include/pulse/xmalloc.h
-/usr/lib64/*.so
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libpulse-mainloop-glib.so
+/usr/lib64/libpulse-simple.so
+/usr/lib64/libpulse.so
+/usr/lib64/pkgconfig/libpulse-mainloop-glib.pc
+/usr/lib64/pkgconfig/libpulse-simple.pc
+/usr/lib64/pkgconfig/libpulse.pc
 
 %files doc
 %defattr(-,root,root,-)
@@ -279,7 +283,12 @@ rm -rf %{buildroot}%{_datadir}/vala
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libpulse-mainloop-glib.so.0
+/usr/lib64/libpulse-mainloop-glib.so.0.0.5
+/usr/lib64/libpulse-simple.so.0
+/usr/lib64/libpulse-simple.so.0.1.0
+/usr/lib64/libpulse.so.0
+/usr/lib64/libpulse.so.0.20.0
 /usr/lib64/pulse-9.0/modules/libalsa-util.so
 /usr/lib64/pulse-9.0/modules/libcli.so
 /usr/lib64/pulse-9.0/modules/liboss-util.so
