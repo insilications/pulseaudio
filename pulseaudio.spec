@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 9.0
-Release  : 10
+Release  : 11
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-9.0.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-9.0.tar.xz
 Summary  : PulseAudio Simplified Synchronous Client Interface
@@ -16,15 +16,38 @@ Requires: pulseaudio-lib
 Requires: pulseaudio-data
 Requires: pulseaudio-locales
 Requires: pulseaudio-doc
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
 BuildRequires : gdbm-dev
+BuildRequires : gdbm-dev32
 BuildRequires : gettext
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
 BuildRequires : intltool
 BuildRequires : intltool-dev
 BuildRequires : libX11-dev
+BuildRequires : libX11-dev32
 BuildRequires : libcap-dev
 BuildRequires : libcap-ng-dev
+BuildRequires : libcap-ng-dev32
 BuildRequires : libsamplerate-dev
+BuildRequires : libtool-dev32
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkgconfig(32alsa)
+BuildRequires : pkgconfig(32check)
+BuildRequires : pkgconfig(32dbus-1)
+BuildRequires : pkgconfig(32ice)
+BuildRequires : pkgconfig(32json-c)
+BuildRequires : pkgconfig(32libsystemd)
+BuildRequires : pkgconfig(32libudev)
+BuildRequires : pkgconfig(32openssl)
+BuildRequires : pkgconfig(32orc-0.4)
+BuildRequires : pkgconfig(32sm)
+BuildRequires : pkgconfig(32sndfile)
+BuildRequires : pkgconfig(32x11-xcb)
+BuildRequires : pkgconfig(32xcb)
+BuildRequires : pkgconfig(32xtst)
 BuildRequires : pkgconfig(alsa)
 BuildRequires : pkgconfig(bash-completion)
 BuildRequires : pkgconfig(check)
@@ -91,6 +114,17 @@ Provides: pulseaudio-devel
 dev components for the pulseaudio package.
 
 
+%package dev32
+Summary: dev32 components for the pulseaudio package.
+Group: Default
+Requires: pulseaudio-lib32
+Requires: pulseaudio-bin
+Requires: pulseaudio-data
+
+%description dev32
+dev32 components for the pulseaudio package.
+
+
 %package doc
 Summary: doc components for the pulseaudio package.
 Group: Documentation
@@ -109,6 +143,16 @@ Requires: pulseaudio-config
 lib components for the pulseaudio package.
 
 
+%package lib32
+Summary: lib32 components for the pulseaudio package.
+Group: Default
+Requires: pulseaudio-data
+Requires: pulseaudio-config
+
+%description lib32
+lib32 components for the pulseaudio package.
+
+
 %package locales
 Summary: locales components for the pulseaudio package.
 Group: Default
@@ -120,12 +164,26 @@ locales components for the pulseaudio package.
 %prep
 %setup -q -n pulseaudio-9.0
 %patch1 -p1
+pushd ..
+cp -a pulseaudio-9.0 build32
+popd
 
 %build
 export LANG=C
 %autogen --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc --with-speex
 make V=1  %{?_smp_mflags}
 
+pushd ../build32/
+export CFLAGS="$CFLAGS -m32"
+export CXXFLAGS="$CXXFLAGS -m32"
+export LDFLAGS="$LDFLAGS -m32"
+%autogen  --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc --with-speex --without-fftw \
+--disable-glib2 \
+--disable-gtk3 \
+--without-speex \
+--without-caps --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+make V=1  %{?_smp_mflags}
+popd
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
@@ -135,6 +193,15 @@ make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
 rm -rf %{buildroot}
+pushd ../build32/
+%make_install32
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do mv $i 32$i ; done
+popd
+fi
+popd
 %make_install
 %find_lang pulseaudio
 ## make_install_append content
@@ -143,6 +210,94 @@ rm -rf %{buildroot}%{_datadir}/vala
 
 %files
 %defattr(-,root,root,-)
+/usr/lib32/cmake/PulseAudio/PulseAudioConfig.cmake
+/usr/lib32/cmake/PulseAudio/PulseAudioConfigVersion.cmake
+/usr/lib32/pulse-9.0/modules/libalsa-util.so
+/usr/lib32/pulse-9.0/modules/libcli.so
+/usr/lib32/pulse-9.0/modules/liboss-util.so
+/usr/lib32/pulse-9.0/modules/libprotocol-cli.so
+/usr/lib32/pulse-9.0/modules/libprotocol-esound.so
+/usr/lib32/pulse-9.0/modules/libprotocol-http.so
+/usr/lib32/pulse-9.0/modules/libprotocol-native.so
+/usr/lib32/pulse-9.0/modules/libprotocol-simple.so
+/usr/lib32/pulse-9.0/modules/libraop.so
+/usr/lib32/pulse-9.0/modules/librtp.so
+/usr/lib32/pulse-9.0/modules/module-alsa-card.so
+/usr/lib32/pulse-9.0/modules/module-alsa-sink.so
+/usr/lib32/pulse-9.0/modules/module-alsa-source.so
+/usr/lib32/pulse-9.0/modules/module-always-sink.so
+/usr/lib32/pulse-9.0/modules/module-augment-properties.so
+/usr/lib32/pulse-9.0/modules/module-card-restore.so
+/usr/lib32/pulse-9.0/modules/module-cli-protocol-tcp.so
+/usr/lib32/pulse-9.0/modules/module-cli-protocol-unix.so
+/usr/lib32/pulse-9.0/modules/module-cli.so
+/usr/lib32/pulse-9.0/modules/module-combine-sink.so
+/usr/lib32/pulse-9.0/modules/module-combine.so
+/usr/lib32/pulse-9.0/modules/module-console-kit.so
+/usr/lib32/pulse-9.0/modules/module-dbus-protocol.so
+/usr/lib32/pulse-9.0/modules/module-default-device-restore.so
+/usr/lib32/pulse-9.0/modules/module-detect.so
+/usr/lib32/pulse-9.0/modules/module-device-manager.so
+/usr/lib32/pulse-9.0/modules/module-device-restore.so
+/usr/lib32/pulse-9.0/modules/module-echo-cancel.so
+/usr/lib32/pulse-9.0/modules/module-esound-compat-spawnfd.so
+/usr/lib32/pulse-9.0/modules/module-esound-compat-spawnpid.so
+/usr/lib32/pulse-9.0/modules/module-esound-protocol-tcp.so
+/usr/lib32/pulse-9.0/modules/module-esound-protocol-unix.so
+/usr/lib32/pulse-9.0/modules/module-esound-sink.so
+/usr/lib32/pulse-9.0/modules/module-filter-apply.so
+/usr/lib32/pulse-9.0/modules/module-filter-heuristics.so
+/usr/lib32/pulse-9.0/modules/module-hal-detect.so
+/usr/lib32/pulse-9.0/modules/module-http-protocol-tcp.so
+/usr/lib32/pulse-9.0/modules/module-http-protocol-unix.so
+/usr/lib32/pulse-9.0/modules/module-intended-roles.so
+/usr/lib32/pulse-9.0/modules/module-ladspa-sink.so
+/usr/lib32/pulse-9.0/modules/module-loopback.so
+/usr/lib32/pulse-9.0/modules/module-match.so
+/usr/lib32/pulse-9.0/modules/module-mmkbd-evdev.so
+/usr/lib32/pulse-9.0/modules/module-native-protocol-fd.so
+/usr/lib32/pulse-9.0/modules/module-native-protocol-tcp.so
+/usr/lib32/pulse-9.0/modules/module-native-protocol-unix.so
+/usr/lib32/pulse-9.0/modules/module-null-sink.so
+/usr/lib32/pulse-9.0/modules/module-null-source.so
+/usr/lib32/pulse-9.0/modules/module-oss.so
+/usr/lib32/pulse-9.0/modules/module-pipe-sink.so
+/usr/lib32/pulse-9.0/modules/module-pipe-source.so
+/usr/lib32/pulse-9.0/modules/module-position-event-sounds.so
+/usr/lib32/pulse-9.0/modules/module-raop-sink.so
+/usr/lib32/pulse-9.0/modules/module-remap-sink.so
+/usr/lib32/pulse-9.0/modules/module-remap-source.so
+/usr/lib32/pulse-9.0/modules/module-rescue-streams.so
+/usr/lib32/pulse-9.0/modules/module-role-cork.so
+/usr/lib32/pulse-9.0/modules/module-role-ducking.so
+/usr/lib32/pulse-9.0/modules/module-rtp-recv.so
+/usr/lib32/pulse-9.0/modules/module-rtp-send.so
+/usr/lib32/pulse-9.0/modules/module-rygel-media-server.so
+/usr/lib32/pulse-9.0/modules/module-simple-protocol-tcp.so
+/usr/lib32/pulse-9.0/modules/module-simple-protocol-unix.so
+/usr/lib32/pulse-9.0/modules/module-sine-source.so
+/usr/lib32/pulse-9.0/modules/module-sine.so
+/usr/lib32/pulse-9.0/modules/module-stream-restore.so
+/usr/lib32/pulse-9.0/modules/module-suspend-on-idle.so
+/usr/lib32/pulse-9.0/modules/module-switch-on-connect.so
+/usr/lib32/pulse-9.0/modules/module-switch-on-port-available.so
+/usr/lib32/pulse-9.0/modules/module-systemd-login.so
+/usr/lib32/pulse-9.0/modules/module-tunnel-sink-new.so
+/usr/lib32/pulse-9.0/modules/module-tunnel-sink.so
+/usr/lib32/pulse-9.0/modules/module-tunnel-source-new.so
+/usr/lib32/pulse-9.0/modules/module-tunnel-source.so
+/usr/lib32/pulse-9.0/modules/module-udev-detect.so
+/usr/lib32/pulse-9.0/modules/module-virtual-sink.so
+/usr/lib32/pulse-9.0/modules/module-virtual-source.so
+/usr/lib32/pulse-9.0/modules/module-virtual-surround-sink.so
+/usr/lib32/pulse-9.0/modules/module-volume-restore.so
+/usr/lib32/pulse-9.0/modules/module-x11-bell.so
+/usr/lib32/pulse-9.0/modules/module-x11-cork-request.so
+/usr/lib32/pulse-9.0/modules/module-x11-publish.so
+/usr/lib32/pulse-9.0/modules/module-x11-xsmp.so
+/usr/lib32/pulseaudio/libpulsecommon-9.0.so
+/usr/lib32/pulseaudio/libpulsecore-9.0.so
+/usr/lib32/pulseaudio/libpulsedsp.so
 /usr/lib64/cmake/PulseAudio/PulseAudioConfig.cmake
 /usr/lib64/cmake/PulseAudio/PulseAudioConfigVersion.cmake
 
@@ -276,6 +431,13 @@ rm -rf %{buildroot}%{_datadir}/vala
 /usr/lib64/pkgconfig/libpulse-simple.pc
 /usr/lib64/pkgconfig/libpulse.pc
 
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libpulse-simple.so
+/usr/lib32/libpulse.so
+/usr/lib32/pkgconfig/32libpulse-simple.pc
+/usr/lib32/pkgconfig/32libpulse.pc
+
 %files doc
 %defattr(-,root,root,-)
 %doc /usr/share/man/man1/*
@@ -376,6 +538,13 @@ rm -rf %{buildroot}%{_datadir}/vala
 /usr/lib64/pulseaudio/libpulsecommon-9.0.so
 /usr/lib64/pulseaudio/libpulsecore-9.0.so
 /usr/lib64/pulseaudio/libpulsedsp.so
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libpulse-simple.so.0
+/usr/lib32/libpulse-simple.so.0.1.0
+/usr/lib32/libpulse.so.0
+/usr/lib32/libpulse.so.0.20.0
 
 %files locales -f pulseaudio.lang 
 %defattr(-,root,root,-)
