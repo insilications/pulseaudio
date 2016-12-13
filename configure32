@@ -1,5 +1,4 @@
 --without-fftw
---disable-glib2
 --disable-gtk3
 --without-speex
 --without-caps

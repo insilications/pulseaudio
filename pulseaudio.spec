@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 9.0
-Release  : 11
+Release  : 12
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-9.0.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-9.0.tar.xz
 Summary  : PulseAudio Simplified Synchronous Client Interface
@@ -37,6 +37,7 @@ BuildRequires : perl(XML::Parser)
 BuildRequires : pkgconfig(32alsa)
 BuildRequires : pkgconfig(32check)
 BuildRequires : pkgconfig(32dbus-1)
+BuildRequires : pkgconfig(32glib-2.0)
 BuildRequires : pkgconfig(32ice)
 BuildRequires : pkgconfig(32json-c)
 BuildRequires : pkgconfig(32libsystemd)
@@ -120,6 +121,7 @@ Group: Default
 Requires: pulseaudio-lib32
 Requires: pulseaudio-bin
 Requires: pulseaudio-data
+Requires: pulseaudio-dev
 
 %description dev32
 dev32 components for the pulseaudio package.
@@ -174,11 +176,11 @@ export LANG=C
 make V=1  %{?_smp_mflags}
 
 pushd ../build32/
-export CFLAGS="$CFLAGS -m32"
-export CXXFLAGS="$CXXFLAGS -m32"
-export LDFLAGS="$LDFLAGS -m32"
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export CFLAGS="$CFLAGS -m32 "
+export CXXFLAGS="$CXXFLAGS -m32 "
+export LDFLAGS="$LDFLAGS -m32 "
 %autogen  --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc --with-speex --without-fftw \
---disable-glib2 \
 --disable-gtk3 \
 --without-speex \
 --without-caps --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
@@ -198,7 +200,7 @@ pushd ../build32/
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
 then
 pushd %{buildroot}/usr/lib32/pkgconfig
-for i in *.pc ; do mv $i 32$i ; done
+for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
 popd
@@ -433,10 +435,15 @@ rm -rf %{buildroot}%{_datadir}/vala
 
 %files dev32
 %defattr(-,root,root,-)
+/usr/lib32/libpulse-mainloop-glib.so
 /usr/lib32/libpulse-simple.so
 /usr/lib32/libpulse.so
+/usr/lib32/pkgconfig/32libpulse-mainloop-glib.pc
 /usr/lib32/pkgconfig/32libpulse-simple.pc
 /usr/lib32/pkgconfig/32libpulse.pc
+/usr/lib32/pkgconfig/libpulse-mainloop-glib.pc
+/usr/lib32/pkgconfig/libpulse-simple.pc
+/usr/lib32/pkgconfig/libpulse.pc
 
 %files doc
 %defattr(-,root,root,-)
@@ -541,6 +548,8 @@ rm -rf %{buildroot}%{_datadir}/vala
 
 %files lib32
 %defattr(-,root,root,-)
+/usr/lib32/libpulse-mainloop-glib.so.0
+/usr/lib32/libpulse-mainloop-glib.so.0.0.5
 /usr/lib32/libpulse-simple.so.0
 /usr/lib32/libpulse-simple.so.0.1.0
 /usr/lib32/libpulse.so.0
