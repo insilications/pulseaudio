@@ -2,3 +2,5 @@
 --disable-gtk3
 --without-speex
 --without-caps
+--disable-bluez5
+--disable-bluez4

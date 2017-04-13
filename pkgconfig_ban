@@ -12,7 +12,6 @@ speexdsp
 tdb
 webrtc-audio-processing
 avahi-client
-sbc
 32gtk+-3.0
 32bluez
 32gconf-2.0
@@ -27,6 +26,5 @@ sbc
 32tdb
 32webrtc-audio-processing
 32avahi-client
-32sbc
 32fftw3f
 32bash-completion

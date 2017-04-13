@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 10.0
-Release  : 15
+Release  : 16
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-10.0.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-10.0.tar.xz
 Summary  : PulseAudio GLib 2.0 Main Loop Wrapper
@@ -43,6 +43,7 @@ BuildRequires : pkgconfig(32libsystemd)
 BuildRequires : pkgconfig(32libudev)
 BuildRequires : pkgconfig(32openssl)
 BuildRequires : pkgconfig(32orc-0.4)
+BuildRequires : pkgconfig(32sbc)
 BuildRequires : pkgconfig(32sm)
 BuildRequires : pkgconfig(32sndfile)
 BuildRequires : pkgconfig(32x11-xcb)
@@ -61,11 +62,13 @@ BuildRequires : pkgconfig(libsystemd)
 BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(openssl)
 BuildRequires : pkgconfig(orc-0.4)
+BuildRequires : pkgconfig(sbc)
 BuildRequires : pkgconfig(sm)
 BuildRequires : pkgconfig(sndfile)
 BuildRequires : pkgconfig(x11-xcb)
 BuildRequires : pkgconfig(xcb)
 BuildRequires : pkgconfig(xtst)
+BuildRequires : sbc-dev
 BuildRequires : speex-dev
 Patch1: 0001-Support-a-stateless-configuration.patch
 Patch2: lessfence.patch
@@ -173,12 +176,12 @@ popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1492043915
+export SOURCE_DATE_EPOCH=1492046548
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-%autogen --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc --with-speex
+%autogen --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc --with-speex --enable-bluez5
 make V=1  %{?_smp_mflags}
 
 pushd ../build32/
@@ -186,10 +189,12 @@ export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-%autogen --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc --with-speex --without-fftw \
+%autogen --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc --with-speex --enable-bluez5 --without-fftw \
 --disable-gtk3 \
 --without-speex \
---without-caps --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+--without-caps \
+--disable-bluez5 \
+--disable-bluez4 --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make V=1  %{?_smp_mflags}
 popd
 %check
@@ -200,7 +205,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1492043915
+export SOURCE_DATE_EPOCH=1492046548
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -380,6 +385,8 @@ rm -rf %{buildroot}%{_datadir}/vala
 /usr/lib64/libpulse.so.0
 /usr/lib64/libpulse.so.0.20.1
 /usr/lib64/pulse-10.0/modules/libalsa-util.so
+/usr/lib64/pulse-10.0/modules/libbluez4-util.so
+/usr/lib64/pulse-10.0/modules/libbluez5-util.so
 /usr/lib64/pulse-10.0/modules/libcli.so
 /usr/lib64/pulse-10.0/modules/liboss-util.so
 /usr/lib64/pulse-10.0/modules/libprotocol-cli.so
@@ -395,6 +402,12 @@ rm -rf %{buildroot}%{_datadir}/vala
 /usr/lib64/pulse-10.0/modules/module-alsa-source.so
 /usr/lib64/pulse-10.0/modules/module-always-sink.so
 /usr/lib64/pulse-10.0/modules/module-augment-properties.so
+/usr/lib64/pulse-10.0/modules/module-bluetooth-discover.so
+/usr/lib64/pulse-10.0/modules/module-bluetooth-policy.so
+/usr/lib64/pulse-10.0/modules/module-bluez4-device.so
+/usr/lib64/pulse-10.0/modules/module-bluez4-discover.so
+/usr/lib64/pulse-10.0/modules/module-bluez5-device.so
+/usr/lib64/pulse-10.0/modules/module-bluez5-discover.so
 /usr/lib64/pulse-10.0/modules/module-card-restore.so
 /usr/lib64/pulse-10.0/modules/module-cli-protocol-tcp.so
 /usr/lib64/pulse-10.0/modules/module-cli-protocol-unix.so
