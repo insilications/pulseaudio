@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 10.0
-Release  : 14
+Release  : 15
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-10.0.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-10.0.tar.xz
 Summary  : PulseAudio GLib 2.0 Main Loop Wrapper
@@ -16,6 +16,7 @@ Requires: pulseaudio-lib
 Requires: pulseaudio-data
 Requires: pulseaudio-locales
 Requires: pulseaudio-doc
+BuildRequires : bluez-dev
 BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
 BuildRequires : gcc-libstdc++32
@@ -49,6 +50,7 @@ BuildRequires : pkgconfig(32xcb)
 BuildRequires : pkgconfig(32xtst)
 BuildRequires : pkgconfig(alsa)
 BuildRequires : pkgconfig(bash-completion)
+BuildRequires : pkgconfig(bluez)
 BuildRequires : pkgconfig(check)
 BuildRequires : pkgconfig(dbus-1)
 BuildRequires : pkgconfig(fftw3f)
@@ -171,7 +173,7 @@ popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1484798107
+export SOURCE_DATE_EPOCH=1492043915
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
@@ -198,7 +200,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1484798107
+export SOURCE_DATE_EPOCH=1492043915
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32

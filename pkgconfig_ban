@@ -1,6 +1,5 @@
 # This file contains pkgconfig build requirements that get picked up
 # but are undesirable. One entry per line, no whitespace.
-bluez
 gconf-2.0
 jack
 libasyncns

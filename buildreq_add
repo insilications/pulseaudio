@@ -11,3 +11,4 @@ libX11-dev32
 libcap-ng-dev32
 gdbm-dev32
 libtool-dev32
+bluez-dev
