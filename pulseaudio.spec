@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 10.0
-Release  : 17
+Release  : 18
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-10.0.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-10.0.tar.xz
 Summary  : PulseAudio GLib 2.0 Main Loop Wrapper
