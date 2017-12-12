@@ -3,10 +3,8 @@ Configure miss: whether C compiler accepts -Wold-style-definition
 Configure miss: whether C compiler accepts -Wstrict-prototypes
 Configure miss: sys/dl.h
 Configure miss: sys/conf.h
-Configure miss: winsock2.h
 Configure miss: ws2tcpip.h
 Configure miss: sys/atomic.h
-Configure miss: xlocale.h
 Configure miss: valgrind/memcheck.h
 Configure miss: paccept
 Configure miss: sig2str
@@ -31,20 +29,13 @@ Configure miss: lirc_init in -llirc_client
 Configure miss:  soxr >= 0.1.1 
 Configure miss:  webrtc-audio-processing >= 0.2 
 Configure miss: stow
-Configure miss: i686-generic-linux-gnu-pkg-config
 Configure miss: whether C compiler accepts -Wold-style-definition
 Configure miss: whether C compiler accepts -Wstrict-prototypes
-Configure miss: i686-generic-linux-gnu-objdump
-Configure miss: i686-generic-linux-gnu-dlltool
-Configure miss: i686-generic-linux-gnu-strip
-Configure miss: i686-generic-linux-gnu-mt
 Configure miss: whether a statically linked program can dlopen itself
 Configure miss: sys/dl.h
 Configure miss: sys/conf.h
-Configure miss: winsock2.h
 Configure miss: ws2tcpip.h
 Configure miss: sys/atomic.h
-Configure miss: xlocale.h
 Configure miss: valgrind/memcheck.h
 Configure miss: whether __x86_64__ is declared
 Configure miss: paccept

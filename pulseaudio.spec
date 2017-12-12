@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 11.1
-Release  : 20
+Release  : 21
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-11.1.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-11.1.tar.xz
 Summary  : PulseAudio GLib 2.0 Main Loop Wrapper
@@ -72,6 +72,7 @@ BuildRequires : pkgconfig(xcb)
 BuildRequires : pkgconfig(xtst)
 BuildRequires : sbc-dev
 BuildRequires : speex-dev
+BuildRequires : speexdsp-dev
 Patch1: 0001-Support-a-stateless-configuration.patch
 Patch2: lessfence.patch
 
@@ -144,7 +145,6 @@ doc components for the pulseaudio package.
 Summary: lib components for the pulseaudio package.
 Group: Libraries
 Requires: pulseaudio-data
-Requires: pulseaudio-config
 
 %description lib
 lib components for the pulseaudio package.
@@ -154,7 +154,6 @@ lib components for the pulseaudio package.
 Summary: lib32 components for the pulseaudio package.
 Group: Default
 Requires: pulseaudio-data
-Requires: pulseaudio-config
 
 %description lib32
 lib32 components for the pulseaudio package.
@@ -181,13 +180,13 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1505756826
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-common -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-common -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-common -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-common -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export SOURCE_DATE_EPOCH=1513094454
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 %autogen --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc --with-speex --enable-bluez5
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
@@ -200,7 +199,7 @@ export LDFLAGS="$LDFLAGS -m32"
 --without-caps \
 --disable-bluez5 \
 --disable-bluez4 --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 popd
 %check
 export LANG=C
@@ -210,7 +209,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1505756826
+export SOURCE_DATE_EPOCH=1513094454
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
