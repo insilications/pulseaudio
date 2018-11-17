@@ -4,19 +4,21 @@
 #
 Name     : pulseaudio
 Version  : 12.2
-Release  : 31
+Release  : 32
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-12.2.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-12.2.tar.xz
 Summary  : PulseAudio Simplified Synchronous Client Interface
 Group    : Development/Tools
 License  : BSD-3-Clause LGPL-2.1
-Requires: pulseaudio-bin
-Requires: pulseaudio-config
-Requires: pulseaudio-lib
-Requires: pulseaudio-data
-Requires: pulseaudio-license
-Requires: pulseaudio-locales
-Requires: pulseaudio-man
+Requires: pulseaudio-bin = %{version}-%{release}
+Requires: pulseaudio-config = %{version}-%{release}
+Requires: pulseaudio-data = %{version}-%{release}
+Requires: pulseaudio-lib = %{version}-%{release}
+Requires: pulseaudio-libexec = %{version}-%{release}
+Requires: pulseaudio-license = %{version}-%{release}
+Requires: pulseaudio-locales = %{version}-%{release}
+Requires: pulseaudio-man = %{version}-%{release}
+Requires: pulseaudio-services = %{version}-%{release}
 BuildRequires : bluez-dev
 BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
@@ -91,10 +93,12 @@ git://anongit.freedesktop.org/pulseaudio/pulseaudio
 %package bin
 Summary: bin components for the pulseaudio package.
 Group: Binaries
-Requires: pulseaudio-data
-Requires: pulseaudio-config
-Requires: pulseaudio-license
-Requires: pulseaudio-man
+Requires: pulseaudio-data = %{version}-%{release}
+Requires: pulseaudio-libexec = %{version}-%{release}
+Requires: pulseaudio-config = %{version}-%{release}
+Requires: pulseaudio-license = %{version}-%{release}
+Requires: pulseaudio-man = %{version}-%{release}
+Requires: pulseaudio-services = %{version}-%{release}
 
 %description bin
 bin components for the pulseaudio package.
@@ -119,10 +123,10 @@ data components for the pulseaudio package.
 %package dev
 Summary: dev components for the pulseaudio package.
 Group: Development
-Requires: pulseaudio-lib
-Requires: pulseaudio-bin
-Requires: pulseaudio-data
-Provides: pulseaudio-devel
+Requires: pulseaudio-lib = %{version}-%{release}
+Requires: pulseaudio-bin = %{version}-%{release}
+Requires: pulseaudio-data = %{version}-%{release}
+Provides: pulseaudio-devel = %{version}-%{release}
 
 %description dev
 dev components for the pulseaudio package.
@@ -131,10 +135,10 @@ dev components for the pulseaudio package.
 %package dev32
 Summary: dev32 components for the pulseaudio package.
 Group: Default
-Requires: pulseaudio-lib32
-Requires: pulseaudio-bin
-Requires: pulseaudio-data
-Requires: pulseaudio-dev
+Requires: pulseaudio-lib32 = %{version}-%{release}
+Requires: pulseaudio-bin = %{version}-%{release}
+Requires: pulseaudio-data = %{version}-%{release}
+Requires: pulseaudio-dev = %{version}-%{release}
 
 %description dev32
 dev32 components for the pulseaudio package.
@@ -143,8 +147,9 @@ dev32 components for the pulseaudio package.
 %package lib
 Summary: lib components for the pulseaudio package.
 Group: Libraries
-Requires: pulseaudio-data
-Requires: pulseaudio-license
+Requires: pulseaudio-data = %{version}-%{release}
+Requires: pulseaudio-libexec = %{version}-%{release}
+Requires: pulseaudio-license = %{version}-%{release}
 
 %description lib
 lib components for the pulseaudio package.
@@ -153,11 +158,21 @@ lib components for the pulseaudio package.
 %package lib32
 Summary: lib32 components for the pulseaudio package.
 Group: Default
-Requires: pulseaudio-data
-Requires: pulseaudio-license
+Requires: pulseaudio-data = %{version}-%{release}
+Requires: pulseaudio-license = %{version}-%{release}
 
 %description lib32
 lib32 components for the pulseaudio package.
+
+
+%package libexec
+Summary: libexec components for the pulseaudio package.
+Group: Default
+Requires: pulseaudio-config = %{version}-%{release}
+Requires: pulseaudio-license = %{version}-%{release}
+
+%description libexec
+libexec components for the pulseaudio package.
 
 
 %package license
@@ -184,6 +199,14 @@ Group: Default
 man components for the pulseaudio package.
 
 
+%package services
+Summary: services components for the pulseaudio package.
+Group: Systemd services
+
+%description services
+services components for the pulseaudio package.
+
+
 %prep
 %setup -q -n pulseaudio-12.2
 %patch1 -p1
@@ -198,7 +221,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1531770921
+export SOURCE_DATE_EPOCH=1542418279
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
@@ -209,6 +232,7 @@ make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export ASFLAGS="$ASFLAGS --32"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
@@ -227,13 +251,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
+cd ../build32;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1531770921
+export SOURCE_DATE_EPOCH=1542418279
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/pulseaudio
-cp LICENSE %{buildroot}/usr/share/doc/pulseaudio/LICENSE
-cp src/pulsecore/filter/LICENSE.WEBKIT %{buildroot}/usr/share/doc/pulseaudio/src_pulsecore_filter_LICENSE.WEBKIT
+mkdir -p %{buildroot}/usr/share/package-licenses/pulseaudio
+cp LICENSE %{buildroot}/usr/share/package-licenses/pulseaudio/LICENSE
+cp src/pulsecore/filter/LICENSE.WEBKIT %{buildroot}/usr/share/package-licenses/pulseaudio/src_pulsecore_filter_LICENSE.WEBKIT
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -245,9 +271,9 @@ fi
 popd
 %make_install
 %find_lang pulseaudio
-## make_install_append content
+## install_append content
 rm -rf %{buildroot}%{_datadir}/vala
-## make_install_append end
+## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -268,12 +294,9 @@ rm -rf %{buildroot}%{_datadir}/vala
 /usr/bin/pulseaudio
 /usr/bin/qpaeq
 /usr/bin/start-pulseaudio-x11
-/usr/libexec/pulse/gsettings-helper
 
 %files config
 %defattr(-,root,root,-)
-/usr/lib/systemd/user/pulseaudio.service
-/usr/lib/systemd/user/pulseaudio.socket
 /usr/lib/udev/rules.d/90-pulseaudio.rules
 
 %files data
@@ -609,13 +632,17 @@ rm -rf %{buildroot}%{_datadir}/vala
 /usr/lib32/pulseaudio/libpulsecore-12.2.so
 /usr/lib32/pulseaudio/libpulsedsp.so
 
-%files license
+%files libexec
 %defattr(-,root,root,-)
-/usr/share/doc/pulseaudio/LICENSE
-/usr/share/doc/pulseaudio/src_pulsecore_filter_LICENSE.WEBKIT
+/usr/libexec/pulse/gsettings-helper
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/pulseaudio/LICENSE
+/usr/share/package-licenses/pulseaudio/src_pulsecore_filter_LICENSE.WEBKIT
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man1/esdcompat.1
 /usr/share/man/man1/pacat.1
 /usr/share/man/man1/pacmd.1
@@ -633,6 +660,11 @@ rm -rf %{buildroot}%{_datadir}/vala
 /usr/share/man/man5/pulse-cli-syntax.5
 /usr/share/man/man5/pulse-client.conf.5
 /usr/share/man/man5/pulse-daemon.conf.5
+
+%files services
+%defattr(-,root,root,-)
+/usr/lib/systemd/user/pulseaudio.service
+/usr/lib/systemd/user/pulseaudio.socket
 
 %files locales -f pulseaudio.lang
 %defattr(-,root,root,-)

@@ -7,7 +7,7 @@ libXtst.so.6
 libasound.so.2
 libc.so.6
 libcap.so.2
-libcrypto.so.1.0.0
+libcrypto.so.1.1
 libdbus-1.so.3
 libdl.so.2
 libfftw3f.so.3
@@ -23,7 +23,7 @@ librt.so.1
 libsbc.so.1
 libsndfile.so.1
 libspeexdsp.so.1
-libssl.so.1.0.0
+libssl.so.1.1
 libsystemd.so.0
 libudev.so.1
 libxcb.so.1
