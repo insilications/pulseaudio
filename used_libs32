@@ -1,7 +1,4 @@
 ld-linux.so.2
-libICE.so.6
-libSM.so.6
-libX11-xcb.so.1
 libX11.so.6
 libXtst.so.6
 libasound.so.2
@@ -20,4 +17,3 @@ libsndfile.so.1
 libssl.so.1.1
 libsystemd.so.0
 libudev.so.1
-libxcb.so.1

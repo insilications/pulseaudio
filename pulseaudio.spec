@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 12.2
-Release  : 34
+Release  : 35
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-12.2.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-12.2.tar.xz
 Summary  : PulseAudio Simplified Synchronous Client Interface
@@ -19,6 +19,7 @@ Requires: pulseaudio-license = %{version}-%{release}
 Requires: pulseaudio-locales = %{version}-%{release}
 Requires: pulseaudio-man = %{version}-%{release}
 Requires: pulseaudio-services = %{version}-%{release}
+Requires: rtkit
 BuildRequires : bluez-dev
 BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
@@ -97,7 +98,6 @@ Requires: pulseaudio-data = %{version}-%{release}
 Requires: pulseaudio-libexec = %{version}-%{release}
 Requires: pulseaudio-config = %{version}-%{release}
 Requires: pulseaudio-license = %{version}-%{release}
-Requires: pulseaudio-man = %{version}-%{release}
 Requires: pulseaudio-services = %{version}-%{release}
 
 %description bin
@@ -221,7 +221,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542428839
+export SOURCE_DATE_EPOCH=1553803156
+export LDFLAGS="${LDFLAGS} -fno-lto"
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
@@ -232,10 +233,10 @@ make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-export ASFLAGS="$ASFLAGS --32"
-export CFLAGS="$CFLAGS -m32"
-export CXXFLAGS="$CXXFLAGS -m32"
-export LDFLAGS="$LDFLAGS -m32"
+export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
 %autogen --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc --with-speex --enable-bluez5 \
 --disable-bluez4 --disable-bluez5-ofono-headset --without-fftw \
 --disable-gtk3 \
@@ -255,7 +256,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1542428839
+export SOURCE_DATE_EPOCH=1553803156
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pulseaudio
 cp LICENSE %{buildroot}/usr/share/package-licenses/pulseaudio/LICENSE

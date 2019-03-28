@@ -1,12 +1,8 @@
 ld-linux-x86-64.so.2
-libICE.so.6
-libSM.so.6
-libX11-xcb.so.1
 libX11.so.6
 libXtst.so.6
 libasound.so.2
 libc.so.6
-libcap.so.2
 libcrypto.so.1.1
 libdbus-1.so.3
 libdl.so.2
@@ -26,4 +22,3 @@ libspeexdsp.so.1
 libssl.so.1.1
 libsystemd.so.0
 libudev.so.1
-libxcb.so.1
