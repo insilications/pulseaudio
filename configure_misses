@@ -1,6 +1,4 @@
 Configure miss: stow
-Configure miss: whether C compiler accepts -Wold-style-definition
-Configure miss: whether C compiler accepts -Wstrict-prototypes
 Configure miss: sys/dl.h
 Configure miss: sys/conf.h
 Configure miss: ws2tcpip.h
@@ -29,8 +27,6 @@ Configure miss: lirc_init in -llirc_client
 Configure miss:  soxr >= 0.1.1 
 Configure miss:  webrtc-audio-processing >= 0.2 
 Configure miss: stow
-Configure miss: whether C compiler accepts -Wold-style-definition
-Configure miss: whether C compiler accepts -Wstrict-prototypes
 Configure miss: whether a statically linked program can dlopen itself
 Configure miss: sys/dl.h
 Configure miss: sys/conf.h

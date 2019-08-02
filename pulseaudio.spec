@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 12.2
-Release  : 35
+Release  : 36
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-12.2.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-12.2.tar.xz
 Summary  : PulseAudio Simplified Synchronous Client Interface
@@ -77,12 +77,14 @@ BuildRequires : pkgconfig(sndfile)
 BuildRequires : pkgconfig(x11-xcb)
 BuildRequires : pkgconfig(xcb)
 BuildRequires : pkgconfig(xtst)
+BuildRequires : rtkit
 BuildRequires : sbc-dev
 BuildRequires : speex-dev
 BuildRequires : speexdsp-dev
 Patch1: 0001-Support-a-stateless-configuration.patch
-Patch2: lessfence.patch
-Patch3: memfd.patch
+Patch2: 0002-alsa-Fix-inclusion-of-use-case.h.patch
+Patch3: lessfence.patch
+Patch4: memfd.patch
 
 %description
 PULSEAUDIO SOUND SERVER
@@ -127,6 +129,7 @@ Requires: pulseaudio-lib = %{version}-%{release}
 Requires: pulseaudio-bin = %{version}-%{release}
 Requires: pulseaudio-data = %{version}-%{release}
 Provides: pulseaudio-devel = %{version}-%{release}
+Requires: pulseaudio = %{version}-%{release}
 
 %description dev
 dev components for the pulseaudio package.
@@ -212,6 +215,7 @@ services components for the pulseaudio package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 pushd ..
 cp -a pulseaudio-12.2 build32
 popd
@@ -220,13 +224,13 @@ popd
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1553803156
-export LDFLAGS="${LDFLAGS} -fno-lto"
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1564729708
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 %autogen --disable-static --with-udev-rules-dir=/usr/lib/udev/rules.d --enable-orc --with-speex --enable-bluez5 \
 --disable-bluez4 --disable-bluez5-ofono-headset
 make  %{?_smp_mflags}
@@ -247,7 +251,7 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
 make  %{?_smp_mflags}
 popd
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -256,7 +260,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1553803156
+export SOURCE_DATE_EPOCH=1564729708
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pulseaudio
 cp LICENSE %{buildroot}/usr/share/package-licenses/pulseaudio/LICENSE

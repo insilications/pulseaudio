@@ -1,3 +1,4 @@
 0001-Support-a-stateless-configuration.patch
+0002-alsa-Fix-inclusion-of-use-case.h.patch
 lessfence.patch
 memfd.patch
