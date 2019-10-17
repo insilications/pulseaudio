@@ -27,22 +27,6 @@ Configure miss: lirc_init in -llirc_client
 Configure miss:  soxr >= 0.1.1 
 Configure miss:  webrtc-audio-processing >= 0.2 
 Configure miss: stow
-Configure miss: i686-generic-linux-gnu-gcc
-Configure miss: i686-generic-linux-gnu-g++
-Configure miss: i686-generic-linux-gnu-c++
-Configure miss: i686-generic-linux-gnu-gpp
-Configure miss: i686-generic-linux-gnu-aCC
-Configure miss: i686-generic-linux-gnu-CC
-Configure miss: i686-generic-linux-gnu-cxx
-Configure miss: i686-generic-linux-gnu-cc++
-Configure miss: i686-generic-linux-gnu-cl.exe
-Configure miss: i686-generic-linux-gnu-FCC
-Configure miss: i686-generic-linux-gnu-KCC
-Configure miss: i686-generic-linux-gnu-RCC
-Configure miss: i686-generic-linux-gnu-xlC_r
-Configure miss: i686-generic-linux-gnu-xlC
-Configure miss: i686-generic-linux-gnu-ar
-Configure miss: i686-generic-linux-gnu-ranlib
 Configure miss: whether a statically linked program can dlopen itself
 Configure miss: sys/dl.h
 Configure miss: sys/conf.h

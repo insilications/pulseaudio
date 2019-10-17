@@ -1,2 +1,4 @@
 12.2
+perl(Data::Dumper)
+perl(strict)
 pkg-config

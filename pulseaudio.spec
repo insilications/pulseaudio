@@ -4,7 +4,7 @@
 #
 Name     : pulseaudio
 Version  : 12.2
-Release  : 37
+Release  : 38
 URL      : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-12.2.tar.xz
 Source0  : https://freedesktop.org/software/pulseaudio/releases/pulseaudio-12.2.tar.xz
 Summary  : PulseAudio Simplified Synchronous Client Interface
@@ -37,7 +37,9 @@ BuildRequires : libcap-ng-dev
 BuildRequires : libcap-ng-dev32
 BuildRequires : libsamplerate-dev
 BuildRequires : libtool-dev32
+BuildRequires : perl(Data::Dumper)
 BuildRequires : perl(XML::Parser)
+BuildRequires : perl(strict)
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(32alsa)
 BuildRequires : pkgconfig(32check)
@@ -225,7 +227,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1567534254
+export SOURCE_DATE_EPOCH=1571338814
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-lto -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
@@ -260,11 +262,11 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1567534254
+export SOURCE_DATE_EPOCH=1571338814
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pulseaudio
-cp LICENSE %{buildroot}/usr/share/package-licenses/pulseaudio/LICENSE
-cp src/pulsecore/filter/LICENSE.WEBKIT %{buildroot}/usr/share/package-licenses/pulseaudio/src_pulsecore_filter_LICENSE.WEBKIT
+cp %{_builddir}/pulseaudio-12.2/LICENSE %{buildroot}/usr/share/package-licenses/pulseaudio/146b824cf04e121da67545caff4ede65bbbb3936
+cp %{_builddir}/pulseaudio-12.2/src/pulsecore/filter/LICENSE.WEBKIT %{buildroot}/usr/share/package-licenses/pulseaudio/24b8a642abc0e34765a795aef5ce10475e17574b
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -643,8 +645,8 @@ rm -rf %{buildroot}%{_datadir}/vala
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/pulseaudio/LICENSE
-/usr/share/package-licenses/pulseaudio/src_pulsecore_filter_LICENSE.WEBKIT
+/usr/share/package-licenses/pulseaudio/146b824cf04e121da67545caff4ede65bbbb3936
+/usr/share/package-licenses/pulseaudio/24b8a642abc0e34765a795aef5ce10475e17574b
 
 %files man
 %defattr(0644,root,root,0755)
