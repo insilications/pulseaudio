@@ -3,7 +3,6 @@ Configure miss: sys/dl.h
 Configure miss: sys/conf.h
 Configure miss: ws2tcpip.h
 Configure miss: sys/atomic.h
-Configure miss: valgrind/memcheck.h
 Configure miss: paccept
 Configure miss: sig2str
 Configure miss: whether we need libatomic_ops
@@ -32,7 +31,6 @@ Configure miss: sys/dl.h
 Configure miss: sys/conf.h
 Configure miss: ws2tcpip.h
 Configure miss: sys/atomic.h
-Configure miss: valgrind/memcheck.h
 Configure miss: whether __x86_64__ is declared
 Configure miss: paccept
 Configure miss: sig2str
