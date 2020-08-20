@@ -1,6 +1,1 @@
---without-fftw
---disable-gtk3
---without-speex
---without-caps
---disable-bluez5
---disable-bluez4
+--enable-shared --enable-static --without-fftw --disable-gtk3 --without-speex --without-caps --disable-bluez5 --disable-bluez4

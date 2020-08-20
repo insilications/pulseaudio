@@ -6,10 +6,6 @@ libasyncns
 libsystemd-daemon
 libsystemd-journal
 libsystemd-login
-samplerate
-soxr
-speexdsp
-tdb
 webrtc-audio-processing
 avahi-client
 32gtk+-3.0
@@ -28,3 +24,11 @@ avahi-client
 32avahi-client
 32fftw3f
 32bash-completion
+32gstreamer-1.0
+32gstreamer-app-1.0
+32gstreamer-rtp-1.0
+gstreamer-1.0
+gstreamer-app-1.0
+gstreamer-rtp-1.0
+soxr
+tdb
