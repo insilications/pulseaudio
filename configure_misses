@@ -24,7 +24,6 @@ Configure miss: lirc/lirc_client.h presence
 Configure miss: lirc/lirc_client.h
 Configure miss: lirc_init in -llirc_client
 Configure miss:  soxr >= 0.1.1 
-Configure miss:  gstreamer-1.0 gstreamer-app-1.0 gstreamer-rtp-1.0 gio-2.0 
 Configure miss:  webrtc-audio-processing >= 0.2 
 Configure miss: stow
 Configure miss: sys/dl.h
@@ -52,7 +51,6 @@ Configure miss: lirc/lirc_client.h presence
 Configure miss: lirc/lirc_client.h
 Configure miss: lirc_init in -llirc_client
 Configure miss:  soxr >= 0.1.1 
-Configure miss:  gstreamer-1.0 gstreamer-app-1.0 gstreamer-rtp-1.0 gio-2.0 
 Configure miss:  webrtc-audio-processing >= 0.2 
 Configure miss: stow
 Configure miss: whether a statically linked program can dlopen itself
@@ -82,5 +80,4 @@ Configure miss: lirc/lirc_client.h presence
 Configure miss: lirc/lirc_client.h
 Configure miss: lirc_init in -llirc_client
 Configure miss:  soxr >= 0.1.1 
-Configure miss:  gstreamer-1.0 gstreamer-app-1.0 gstreamer-rtp-1.0 gio-2.0 
 Configure miss:  webrtc-audio-processing >= 0.2 
